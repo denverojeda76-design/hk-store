@@ -1,0 +1,49 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>H&K Consumer Goods Store - Map Test</title>
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    >
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        #map { height: 450px; width: 100%; border-radius: 8px; }
+        #coords { margin-top: 12px; }
+    </style>
+</head>
+<body>
+    <h2>Choose delivery location</h2>
+    <p>Click the map to place a pin.</p>
+    <div id="map"></div>
+    <p id="coords">No location selected.</p>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([10.7468, 125.0121], 13);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        let marker;
+
+        map.on('click', function (event) {
+            const lat = event.latlng.lat.toFixed(6);
+            const lng = event.latlng.lng.toFixed(6);
+
+            if (marker) {
+                marker.setLatLng(event.latlng);
+            } else {
+                marker = L.marker(event.latlng).addTo(map);
+            }
+
+            document.getElementById('coords').textContent =
+                'Selected coordinates: ' + lat + ', ' + lng;
+        });
+    </script>
+</body>
+</html>
